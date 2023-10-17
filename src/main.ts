@@ -6,6 +6,7 @@ export async function run(workspace = '.'): Promise<void> {
     const {GITHUB_WORKSPACE = workspace} = process.env
     const base = core.getInput('base')
     const head = core.getInput('head')
+    const target = core.getInput('target')
 
     core.info(`using dir: ${GITHUB_WORKSPACE}`)
 
@@ -13,6 +14,7 @@ export async function run(workspace = '.'): Promise<void> {
       base,
       head,
       type: 'app',
+      target,
       workspace: GITHUB_WORKSPACE
     })
     core.setOutput('affectedApps', apps)
@@ -23,6 +25,7 @@ export async function run(workspace = '.'): Promise<void> {
       base,
       head,
       type: 'lib',
+      target,
       workspace: GITHUB_WORKSPACE
     })
     core.setOutput('affectedLibs', libs)

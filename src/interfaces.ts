@@ -2,6 +2,7 @@ export interface GetNxAffectedProps {
   base?: string
   head?: string
   type: 'app' | 'lib'
+  target: string
   workspace: string
 }
 

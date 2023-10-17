@@ -34,11 +34,13 @@ export function getNxAffected({
   base,
   head,
   type,
+  target,
   workspace
 }: GetNxAffectedProps): string[] {
   const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`
+  const targets = `${target}`
   const commands = [
-    `./node_modules/.bin/nx print-affected --type=${type} --select=projects --plain ${args}`,
+    `./node_modules/.bin/nx print-affected --type=${type} --select=projects --targets ${targets} --plain ${args}`,
     `nx print-affected --type=${type} --select=projects --plain ${args}`
   ]
   const result = executeNxCommands({commands, workspace})

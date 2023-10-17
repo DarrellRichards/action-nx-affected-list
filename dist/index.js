@@ -48,11 +48,13 @@ function run(workspace = '.') {
             const { GITHUB_WORKSPACE = workspace } = process.env;
             const base = core.getInput('base');
             const head = core.getInput('head');
+            const target = core.getInput('target');
             core.info(`using dir: ${GITHUB_WORKSPACE}`);
             const apps = (0, nx_1.getNxAffected)({
                 base,
                 head,
                 type: 'app',
+                target,
                 workspace: GITHUB_WORKSPACE
             });
             core.setOutput('affectedApps', apps);
@@ -62,6 +64,7 @@ function run(workspace = '.') {
                 base,
                 head,
                 type: 'lib',
+                target,
                 workspace: GITHUB_WORKSPACE
             });
             core.setOutput('affectedLibs', libs);
@@ -136,10 +139,11 @@ const executeNxCommands = ({ commands, workspace }) => {
     }
     return result;
 };
-function getNxAffected({ base, head, type, workspace }) {
+function getNxAffected({ base, head, type, target, workspace }) {
     const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`;
+    const targets = `${target}`;
     const commands = [
-        `./node_modules/.bin/nx print-affected --type=${type} --select=projects --plain ${args}`,
+        `./node_modules/.bin/nx print-affected --type=${type} --select=projects --targets ${targets} --plain ${args}`,
         `nx print-affected --type=${type} --select=projects --plain ${args}`
     ];
     const result = executeNxCommands({ commands, workspace });
